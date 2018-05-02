@@ -354,7 +354,7 @@ define( [
                 this._setDisable(false);
             } else if(this.disabled === 'security') {
                 // Check the security
-                this._setDisable(this._contextObj.isReadonlyAttr(this._reference));
+                this._setDisable(this._contextObj.isReadonlyAttr(this._reference) || this.get('disabled'));
             } else if(this.disabled === 'attribute' && this.disabledViaAttribute){
                 // attribute property beats fixed property  
                 this._setDisable(this._contextObj.get(this.disabledViaAttribute));
