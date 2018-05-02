@@ -250,11 +250,19 @@
             <category>Control Display</category>
             <description>Allow user to clear selection.</description>
         </property>
-        <property key="disabled" type="boolean" defaultValue="false">
+        
+        <property key="disabled" type="enumeration" defaultValue="security">
             <caption>Disabled</caption>
             <category>Control Display</category>
-            <description>If true, makes the control disabled.</description>
+            <description>Check if the control must be disabled.</description>
+            <enumerationValues>
+                <enumerationValue key="no">No</enumerationValue>
+                <enumerationValue key="security">Based on security</enumerationValue>
+                <enumerationValue key="attribute">Based on attribute</enumerationValue>
+                <enumerationValue key="microflow">Based on microflow</enumerationValue>
+            </enumerationValues>
         </property>
+        
         <property key="disabledViaAttribute" type="attribute" required="false">
             <caption>Disabled via attribute</caption>
             <category>Control Display</category>
@@ -263,6 +271,14 @@
                 <attributeType name="Boolean"/>
             </attributeTypes>
         </property>
+        
+        <property key="disabledViaMicroflow" type="microflow" required="false">
+            <caption>Disabled via microflow</caption>
+            <category>Control Display</category>
+            <description>Optional, set's control disabled property based on microflow return (true = disabled, false = enabled)</description>
+            <returnType type="Boolean"/>
+        </property>
+        
         <property key="visible" type="boolean" defaultValue="true">
             <caption>Visible</caption>
             <category>Control Display</category>

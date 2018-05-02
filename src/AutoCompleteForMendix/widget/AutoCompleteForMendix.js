@@ -27,7 +27,7 @@ define( [
     "dojo/dom-class",
     "dojo/dom-style",
     "dojo/dom-construct",
-    "dojo/_base/array", 
+    "dojo/_base/array",
     "dojo/_base/lang",
     "dojo/text",
     "dojo/html",
@@ -348,20 +348,21 @@ define( [
         },
 
         _updateControlDisplay : function(){
+            
             // fixed property gets checked first
-            if(this.disabled){
-                this._$combo.prop('disabled',true);
-            } else{
-                this._$combo.prop('disabled',false);
+            if(this.disabled === 'no'){
+                this._setDisable(false);
+            } else if(this.disabled === 'security') {
+                // Check the security
+                this._setDisable(this._contextObj.isReadonlyAttr(this._reference));
+            } else if(this.disabled === 'attribute' && this.disabledViaAttribute){
+                // attribute property beats fixed property  
+                this._setDisable(this._contextObj.get(this.disabledViaAttribute));
+            }else if(this.disabled === 'microflow' && this.disabledViaMicroflow){
+                // attribute property beats fixed property  
+                this._execMf(this._contextObj.getGuid(), this.disabledViaMicroflow, dojoLang.hitch(this, this._setDisable));
             }
-            // attribute property beats fixed property    
-            if(this.disabledViaAttribute){
-                if(this._contextObj.get(this.disabledViaAttribute) ){
-                    this._$combo.prop('disabled',true);
-                } else{
-                    this._$combo.prop('disabled',false);
-                }
-            } 
+            
 
             // fixed property gets checked first
             if(this.visible){
@@ -386,6 +387,10 @@ define( [
                     }
                 }
             }
+        },
+        
+        _setDisable: function(status){
+            this._$combo.prop('disabled',status);
         },
 
         // Rerender the interface.
